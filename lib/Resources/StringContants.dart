@@ -14,5 +14,6 @@ const String noInternetAlertDesc =
 const String noInternetAlertTitle = "No Internet !!";
 const String searchBoxHint = 'Enter Search String';
 const String unableToLoadData = 'Unable to Load Data !!';
+const String serviceDown = 'Service is Down !! Pixabay API is down !!';
 const String urlStart = "https://pixabay.com/api/";
 const String queryParamConstant = "image_type=photo&pretty=true";

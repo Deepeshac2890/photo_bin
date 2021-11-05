@@ -13,6 +13,8 @@ Future<List<PixBayImage>> getPics(
   if (response.statusCode == 200) {
     return welcomeFromJson(response.body).pixBayImageList;
   } else {
+    print("The service is Down and response code is : " +
+        response.statusCode.toString());
     return null;
   }
 }
