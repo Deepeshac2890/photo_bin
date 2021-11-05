@@ -12,6 +12,7 @@ Features :
 
 Future Features : 
 
-1.Login and Registration to access premium features. Make High Defination Download premium feature.
-2.Share Feature to share the Image.
-3.Like and Bookmark the Images.
+1. Login and Registration to access premium features.
+2. Make High Defination Download premium feature.
+3. Share Feature to share the Image.
+4. Like and Bookmark the Images.
