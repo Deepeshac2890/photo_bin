@@ -15,7 +15,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
   @override
   Stream<DashboardState> mapEventToState(DashboardEvent event) async* {
-    print(event.toString());
     if (event is InitEvent) {
       yield await init();
     } else if (event is SearchEvent) {
@@ -23,14 +22,12 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       list = [];
       currentPage = 1;
       await getData(event.searchString);
-      print(list.length);
       yield PageLoadedState(list, isEndData, currentView);
     } else if (event is RefreshEvent) {
       list = [];
       currentPage = 1;
       isEndData = false;
       await getData(event.searchTerm);
-      print(list.length);
       event.controller.refreshCompleted();
       yield PageLoadedState(list, isEndData, currentView);
     } else if (event is GetNextPageEvent) {
@@ -38,7 +35,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       currentPage++;
       getData(event.searchString);
       event.controller.loadComplete();
-      print(list.length);
       yield PageLoadedState(list, isEndData, currentView);
     } else if (event is InternetGoneEvent) {
       yield InternetGoneState(list, currentView);
