@@ -88,7 +88,8 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
   }
 
   // Not Being used Currently
-  Widget showImageZoomInstaStyle(BuildContext context) {
+  // Zooms till we pinch the image
+  Widget showImageZoomStyle2(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Center(

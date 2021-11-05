@@ -28,6 +28,9 @@ class _DashboardPageState extends State<DashboardPage> {
     InternetConnectionChecker().onStatusChange.listen((event) async {
       bool isInternet = await InternetConnectionChecker().hasConnection;
       if (!isInternet) db.add(InternetGoneEvent());
+      else {
+        db.add(SearchEvent(searchController.text));
+      }
     });
     super.initState();
   }
