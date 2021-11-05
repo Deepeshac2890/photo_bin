@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_downloader/image_downloader.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../Resources/StringContants.dart';
 import 'event.dart';
@@ -23,9 +27,11 @@ class ImageViewerBloc extends Bloc<ImageViewerEvent, ImageViewerState> {
         path = await downloadImage(event.pixy.largeImageUrl);
       }
       yield DownloadImageState(path);
-    }
-    else if (event is FullScreenEvent) {
+    } else if (event is FullScreenEvent) {
       yield FullScreenState(event.isFullScreen);
+    } else if (event is ShareImageEvent) {
+      _onShare(event.context, event.pixy.largeImageUrl);
+      yield ShareImageState();
     }
   }
 
@@ -45,5 +51,21 @@ class ImageViewerBloc extends Bloc<ImageViewerEvent, ImageViewerState> {
 
   Future<ImageViewerState> init() async {
     return state.clone();
+  }
+
+  void _onShare(BuildContext context, String downloadURL) async {
+    try {
+      var imageId = await ImageDownloader.downloadImage(downloadURL);
+      var path = await ImageDownloader.findPath(imageId);
+      final box = context.findRenderObject() as RenderBox;
+      await Share.shareFiles([path],
+          text: shareImageText,
+          subject: shareImageSubject,
+          sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+      File file = File(path);
+      file.delete();
+    } on PlatformException catch (error) {
+      print(error);
+    }
   }
 }

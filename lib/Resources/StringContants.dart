@@ -17,3 +17,5 @@ const String unableToLoadData = 'Unable to Load Data !!';
 const String serviceDown = 'Service is Down !! Pixabay API is down !!';
 const String urlStart = "https://pixabay.com/api/";
 const String queryParamConstant = "image_type=photo&pretty=true";
+const String shareImageText = "Sharing this awesome Image";
+const String shareImageSubject = "Photo-Bin Image";

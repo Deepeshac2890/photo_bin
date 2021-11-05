@@ -21,3 +21,5 @@ class FullScreenState extends ImageViewerState {
 
   FullScreenState(this.isFullScreen);
 }
+
+class ShareImageState extends ImageViewerState {}

@@ -140,12 +140,22 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
           MaterialButton(
             onPressed: () {
               // Here Download Needs to be done
-              imgBloc.add(DownloadImageEvent(widget.pixImage, 1));
+              imgBloc.add(
+                DownloadImageEvent(widget.pixImage, 1),
+              );
             },
             child: Text(
               'HD',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
+          ),
+          MaterialButton(
+            onPressed: () {
+              imgBloc.add(
+                ShareImageEvent(widget.pixImage, context),
+              );
+            },
+            child: Icon(Icons.share),
           ),
           MaterialButton(
             onPressed: () {
