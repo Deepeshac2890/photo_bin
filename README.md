@@ -1,4 +1,4 @@
-# photo_search
+# Photo-Bin
 
 It is a Photo Search Application which uses BLOC architecture and uses PixaBay API for Image Fetch.
 
