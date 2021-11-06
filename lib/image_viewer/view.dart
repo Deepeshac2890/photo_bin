@@ -5,7 +5,7 @@ import 'package:photo_search/image_viewer/event.dart';
 import 'package:photo_search/model/imageModel.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 
-import '../Resources/StringContants.dart';
+import '../Resources/StringConstants.dart';
 import '../Resources/constants.dart';
 import 'bloc.dart';
 import 'state.dart';
@@ -24,6 +24,7 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
 
   @override
   void initState() {
+    imgBloc.add(CheckCurrentLoginEvents());
     InternetConnectionChecker().onStatusChange.listen((event) async {
       bool isInternet = await InternetConnectionChecker().hasConnection;
       if (!isInternet) imgBloc.add(InternetGoneEvent());
@@ -52,7 +53,7 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
       },
       listener: (context, state) {
         if (state is InternetGoneState) {
-          Constants().showNoInternetAlert(context);
+          Constants.showNoInternetAlert(context);
         } else if (state is DownloadImageState) {
           SnackBar snackBar;
           if (state.path == downloadFailed) {
@@ -130,7 +131,7 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
         actions: [
           MaterialButton(
             onPressed: () {
-              imgBloc.add(DownloadImageEvent(widget.pixImage, 0));
+              imgBloc.add(DownloadImageEvent(widget.pixImage, 0, context));
             },
             child: Text(
               'SD',
@@ -141,7 +142,7 @@ class _ImageViewerPageState extends State<ImageViewerPage> {
             onPressed: () {
               // Here Download Needs to be done
               imgBloc.add(
-                DownloadImageEvent(widget.pixImage, 1),
+                DownloadImageEvent(widget.pixImage, 1, context),
               );
             },
             child: Text(

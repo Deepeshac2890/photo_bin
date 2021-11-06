@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "356610989638",
+    "project_id": "photobin-2cc4e",
+    "storage_bucket": "photobin-2cc4e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356610989638:android:d6742907d4732be56b7447",
+        "android_client_info": {
+          "package_name": "com.example.photo_search"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356610989638-8fa7ce8957soda1msvm01nraimkcfhrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjIMjBs4W425rbR6aOCA4-GRokHxOfMvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356610989638-8fa7ce8957soda1msvm01nraimkcfhrj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

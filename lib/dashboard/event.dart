@@ -33,3 +33,9 @@ class SwitchLayoutView extends DashboardEvent {
 
   SwitchLayoutView(this.viewName);
 }
+
+class LeaveDashboardPageEvent extends DashboardEvent {
+  final BuildContext context;
+
+  LeaveDashboardPageEvent(this.context);
+}

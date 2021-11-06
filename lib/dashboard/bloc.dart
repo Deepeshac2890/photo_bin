@@ -1,8 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:photo_search/Resources/constants.dart';
+import 'package:photo_search/Simple_Screens/WelcomeScreen.dart';
 import 'package:photo_search/model/imageModel.dart';
 import 'package:photo_search/services/PixBayNetwork.dart';
 
-import '../Resources/StringContants.dart';
+import '../Resources/StringConstants.dart';
 import 'event.dart';
 import 'state.dart';
 
@@ -43,6 +47,9 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       currentView = event.viewName;
       yield ViewChanged(list, event.viewName, isEndData);
     }
+    else if (event is LeaveDashboardPageEvent) {
+      checkToShowLogOutConfirmationAlert(event.context);
+    }
   }
 
   Future<void> getData(String searchTerm) async {
@@ -57,5 +64,16 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
   Future<DashboardState> init() async {
     return state.clone();
+  }
+
+  void checkToShowLogOutConfirmationAlert(BuildContext context) async {
+    FirebaseAuth fa = FirebaseAuth.instance;
+    var currentUser = await fa.currentUser();
+    if (currentUser != null) {
+      Constants.showLogOutConfirmationAlert(context);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+          context, WelcomeScreen.id, (route) => false);
+    }
   }
 }

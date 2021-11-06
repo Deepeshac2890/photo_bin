@@ -1,16 +1,20 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_downloader/image_downloader.dart';
+import 'package:photo_search/Resources/constants.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../Resources/StringContants.dart';
+import '../Resources/StringConstants.dart';
 import 'event.dart';
 import 'state.dart';
 
 class ImageViewerBloc extends Bloc<ImageViewerEvent, ImageViewerState> {
+  bool isUserLoggedIn;
+
   ImageViewerBloc() : super(ImageViewerState().init());
 
   @override
@@ -24,7 +28,11 @@ class ImageViewerBloc extends Bloc<ImageViewerEvent, ImageViewerState> {
       if (event.type == 0) {
         path = await downloadImage(event.pixy.webformatUrl);
       } else if (event.type == 1) {
-        path = await downloadImage(event.pixy.largeImageUrl);
+        if (isUserLoggedIn)
+          path = await downloadImage(event.pixy.largeImageUrl);
+        else {
+          Constants.showNoLoginAlert(event.context);
+        }
       }
       yield DownloadImageState(path);
     } else if (event is FullScreenEvent) {
@@ -32,6 +40,8 @@ class ImageViewerBloc extends Bloc<ImageViewerEvent, ImageViewerState> {
     } else if (event is ShareImageEvent) {
       _onShare(event.context, event.pixy.largeImageUrl);
       yield ShareImageState();
+    } else if (event is CheckCurrentLoginEvents) {
+      isLoggedIn();
     }
   }
 
@@ -67,5 +77,14 @@ class ImageViewerBloc extends Bloc<ImageViewerEvent, ImageViewerState> {
     } on PlatformException catch (error) {
       print(error);
     }
+  }
+
+  void isLoggedIn() async {
+    FirebaseAuth fa = FirebaseAuth.instance;
+    var currentUser = await fa.currentUser();
+    if (currentUser == null)
+      isUserLoggedIn = false;
+    else
+      isUserLoggedIn = true;
   }
 }

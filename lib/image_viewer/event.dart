@@ -10,8 +10,9 @@ class InternetGoneEvent extends ImageViewerEvent {}
 class DownloadImageEvent extends ImageViewerEvent {
   final PixBayImage pixy;
   final int type;
+  final BuildContext context;
 
-  DownloadImageEvent(this.pixy, this.type);
+  DownloadImageEvent(this.pixy, this.type, this.context);
 }
 
 class FullScreenEvent extends ImageViewerEvent {
@@ -26,3 +27,5 @@ class ShareImageEvent extends ImageViewerEvent {
 
   ShareImageEvent(this.pixy, this.context);
 }
+
+class CheckCurrentLoginEvents extends ImageViewerEvent {}

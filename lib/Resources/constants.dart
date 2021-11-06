@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_search/Simple_Screens/WelcomeScreen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import 'StringContants.dart';
+import 'StringConstants.dart';
 
 class Constants {
   static const kTextFieldDecoration = InputDecoration(
@@ -23,14 +25,8 @@ class Constants {
     ),
   );
 
-  static const kSendButtonTextStyle = TextStyle(
-    color: Colors.lightBlueAccent,
-    fontWeight: FontWeight.bold,
-    fontSize: 18.0,
-  );
-
-  var _alertStyle = AlertStyle(
-    animationType: AnimationType.fromTop,
+  static var _alertStyle = AlertStyle(
+    animationType: AnimationType.grow,
     isCloseButton: false,
     isOverlayTapDismiss: false,
     descStyle: TextStyle(fontWeight: FontWeight.bold),
@@ -45,10 +41,10 @@ class Constants {
     titleStyle: TextStyle(
       color: Colors.red,
     ),
-    alertAlignment: Alignment.topCenter,
+    alertAlignment: Alignment.center,
   );
 
-  void showNoInternetAlert(BuildContext context) {
+  static void showNoInternetAlert(BuildContext context) {
     Alert(
       context: context,
       style: _alertStyle,
@@ -67,5 +63,74 @@ class Constants {
         ),
       ],
     ).show();
+  }
+
+  static void showNoLoginAlert(BuildContext context) {
+    Alert(
+      context: context,
+      style: _alertStyle,
+      type: AlertType.info,
+      title: notLoggedInTitle,
+      desc: notLoggedInDesc,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OK",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+          radius: BorderRadius.circular(0.0),
+        ),
+      ],
+    ).show();
+  }
+
+  static void showLogOutConfirmationAlert(BuildContext context) {
+    Alert(
+      context: context,
+      style: _alertStyle,
+      type: AlertType.info,
+      title: "Logout Confirmation",
+      desc: "Are your sure you want to Logout ?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Yes",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+            logout(context);
+          },
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+          radius: BorderRadius.circular(0.0),
+        ),
+        DialogButton(
+          child: Text(
+            "No",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+          radius: BorderRadius.circular(0.0),
+        ),
+      ],
+    ).show();
+  }
+
+  static Future<void> logout(BuildContext context) async {
+    FirebaseAuth fa = FirebaseAuth.instance;
+    await fa.signOut();
+    Navigator.pushNamedAndRemoveUntil(
+        context, WelcomeScreen.id, (route) => false);
+  }
+
+  static Widget loadingWidget() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
   }
 }

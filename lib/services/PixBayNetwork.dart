@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:http/http.dart';
-import 'package:photo_search/Resources/StringContants.dart';
+import 'package:photo_search/Resources/StringConstants.dart';
 import 'package:photo_search/Resources/secrets.dart';
 import 'package:photo_search/model/imageModel.dart';
 

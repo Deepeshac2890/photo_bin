@@ -7,7 +7,7 @@ import 'package:photo_search/image_viewer/view.dart';
 import 'package:photo_search/model/imageModel.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../Resources/StringContants.dart';
+import '../Resources/StringConstants.dart';
 import '../Resources/constants.dart';
 import 'bloc.dart';
 import 'state.dart';
@@ -44,43 +44,49 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<DashboardBloc, DashboardState>(
-        cubit: db,
-        builder: (context, state) {
-          if (state is LoadingState) {
-            return loadingState(context);
-          } else if (state is PageLoadedState) {
-            if (state.dataNotFound) {
-              loadFailed(context);
-            }
-            if (state.viewName == listViewName) {
-              return listViewWidget(
-                  context, state.listOfImages, state.dataNotFound);
-            } else
-              return gridViewWidget(
-                  context, state.listOfImages, state.dataNotFound);
-          } else if (state is InternetGoneState) {
-            if (state.viewName == listViewName) {
-              return listViewWidget(context, state.listOfImages, true);
-            } else
-              return gridViewWidget(context, state.listOfImages, true);
-          } else if (state is ViewChanged) {
-            if (state.viewName == listViewName) {
-              return listViewWidget(
-                  context, state.listOfImages, state.dataNotFound);
+    return WillPopScope(
+      // ignore: missing_return
+      onWillPop: () async {
+        db.add(LeaveDashboardPageEvent(context));
+      },
+      child: BlocConsumer<DashboardBloc, DashboardState>(
+          cubit: db,
+          builder: (context, state) {
+            if (state is LoadingState) {
+              return loadingState(context);
+            } else if (state is PageLoadedState) {
+              if (state.dataNotFound) {
+                loadFailed(context);
+              }
+              if (state.viewName == listViewName) {
+                return listViewWidget(
+                    context, state.listOfImages, state.dataNotFound);
+              } else
+                return gridViewWidget(
+                    context, state.listOfImages, state.dataNotFound);
+            } else if (state is InternetGoneState) {
+              if (state.viewName == listViewName) {
+                return listViewWidget(context, state.listOfImages, true);
+              } else
+                return gridViewWidget(context, state.listOfImages, true);
+            } else if (state is ViewChanged) {
+              if (state.viewName == listViewName) {
+                return listViewWidget(
+                    context, state.listOfImages, state.dataNotFound);
+              } else {
+                return gridViewWidget(context, state.listOfImages, true);
+              }
             } else {
-              return gridViewWidget(context, state.listOfImages, true);
+              db.add(SearchEvent(""));
+              return gridViewWidget(context, null, false);
             }
-          } else {
-            db.add(SearchEvent(""));
-            return gridViewWidget(context, null, false);
-          }
-        },
-        listener: (context, state) {
-          if (state is InternetGoneState) {
-            Constants().showNoInternetAlert(context);
-          }
-        });
+          },
+          listener: (context, state) {
+            if (state is InternetGoneState) {
+              Constants.showNoInternetAlert(context);
+            }
+          }),
+    );
   }
 
   void loadFailed(BuildContext context) {

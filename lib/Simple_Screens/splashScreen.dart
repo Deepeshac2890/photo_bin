@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:photo_search/dashboard/view.dart';
 import 'package:splashscreen/splashscreen.dart';
+
+import 'WelcomeScreen.dart';
 
 class SplashPage extends StatelessWidget {
   static String id = "SplashPage";
@@ -8,7 +9,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SplashScreen(
       seconds: 3,
-      navigateAfterSeconds: new DashboardPage(),
+      navigateAfterSeconds: new WelcomeScreen(),
       title: new Text(
         'Photo-Bin',
         textScaleFactor: 2,
